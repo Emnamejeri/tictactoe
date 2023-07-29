@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicTacToe</title>
+    <style>
+      #frame {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-row-gap: 1px; /* Adjust this value as needed to reduce the gap between rows */
+        grid-column-gap: 1px; /* Adjust this value as needed to reduce the gap between columns */
+        border: 1px black solid;
+        width: 70%;
+        height: 60vh;
+        margin: 0 auto;
+      }
+
+      #square {
+        border: 1px black solid;
+        background-color: rgb(178, 243, 221);
+      }
+      h1 {
+        text-align: center;
+      }
+      h3 {
+        text-align: center;
+      }
+      #gameData {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 70%;
+        height: 30vh;
+        margin: 0 auto;
+        margin-top: 40px;
+        background-color: rgba(255, 255, 0, 0.315);
+        padding-bottom: 20px;
+      }
+      button {
+        background-color: aquamarine;
+        height: 50px;
+        width: 40%;
+        font-weight: bold;
+        margin-bottom: 35px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TicTacToe</h1>
+    <h3>Let's play</h3>
+    <div id="frame">
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+      <input type="text" id="square" />
+    </div>
+    <div id="gameData">
+      <h2>Your Turn:</h2>
+      <h2>
+        The winner is:
+        <h2 id="gameWinner"></h2>
+      </h2>
+
+      <button>Start again</button>
+      <a href="index.html">Play On a 3x3 Board</a>
+    </div>
+    <script src="script2.js"></script>
+  </body>
+</html>
