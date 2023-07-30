@@ -1,6 +1,7 @@
 let userOnePiece = "X";
 let userTwoPiece = "O";
 let currentPlayer = "userOne";
+let totalMoves = 0;
 const board = [
   [null, null, null],
   [null, null, null],
@@ -11,14 +12,15 @@ const squareElements = document.querySelectorAll("#square");
 squareElements.forEach((squareElement, index) => {
   squareElement.addEventListener("click", function () {
     const dataToAdd = currentPlayer === "userOne" ? userOnePiece : userTwoPiece;
-    squareElement.value = dataToAdd; // Use textContent to set the value
-    board[Math.floor(index / 3)][index % 3] = dataToAdd; // Update the board array
+    squareElement.value = dataToAdd;
+    board[Math.floor(index / 3)][index % 3] = dataToAdd;
     if (currentPlayer === "userOne") {
       squareElement.style.backgroundColor = "yellow";
     } else {
       squareElement.style.backgroundColor = "pink";
     }
-    squareElement.disabled = true; // Disable click after selection
+    squareElement.disabled = true;
+    totalMoves++;
     currentPlayer = currentPlayer === "userOne" ? "userTwo" : "userOne";
     GameRules();
   });
@@ -77,11 +79,24 @@ function winninghorizontally(board, userOnePiece, userTwoPiece) {
   }
 }
 // a draw
-function theDraw() {}
+function theDraw() {
+  const totalCells = 9;
+  {
+    if (
+      !winningDiagonally(board, userOnePiece, userTwoPiece) &&
+      !winningVertically(board, userOnePiece, userTwoPiece) &&
+      !winninghorizontally(board, userOnePiece, userTwoPiece)
+    ) {
+      if (totalMoves === totalCells) {
+        document.getElementById("gameWinner").innerHTML = "It's a Draw";
+      }
+    }
+  }
+}
 
 function GameRules() {
   winningDiagonally(board, userOnePiece, userTwoPiece);
   winningVertically(board, userOnePiece, userTwoPiece);
   winninghorizontally(board, userOnePiece, userTwoPiece);
-  theDraw(board, userOnePiece, userTwoPiece);
+  theDraw();
 }
