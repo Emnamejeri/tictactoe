@@ -1,33 +1,57 @@
 let userOnePiece = "X";
 let userTwoPiece = "O";
 let currentPlayer = "userOne";
+let totalMoves = 0;
+let turnCounter = 0;
+const maxTurns = 16;
 const board = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
+  [null, null, null, null],
+  [null, null, null, null],
+  [null, null, null, null],
+  [null, null, null, null],
 ];
 
-const squareElements = document.querySelectorAll("#square");
-squareElements.forEach((squareElement, index) => {
-  squareElement.addEventListener("click", function () {
-    const dataToAdd = currentPlayer === "userOne" ? userOnePiece : userTwoPiece;
-    squareElement.value = dataToAdd; // Use textContent to set the value
-    board[Math.floor(index / 4)][index % 4] = dataToAdd; // Update the board array
-    if (currentPlayer === "userOne") {
-      squareElement.style.backgroundColor = "yellow";
-    } else {
-      squareElement.style.backgroundColor = "pink";
-    }
-    squareElement.disabled = true; // Disable click after selection
-    currentPlayer = currentPlayer === "userOne" ? "userTwo" : "userOne";
-    GameRules();
+function gameSteps() {
+  const squareElements = document.querySelectorAll("#square");
+  squareElements.forEach((squareElement, index) => {
+    squareElement.addEventListener("click", function () {
+      const dataToAdd =
+        currentPlayer === "userOne" ? userOnePiece : userTwoPiece;
+      squareElement.value = dataToAdd;
+      board[Math.floor(index / 4)][index % 4] = dataToAdd;
+      if (currentPlayer === "userOne") {
+        squareElement.style.backgroundColor = "yellow";
+      } else {
+        squareElement.style.backgroundColor = "pink";
+      }
+      squareElement.disabled = true;
+      totalMoves++;
+      selectPlayer();
+      GameRules();
+    });
   });
-});
 
-document.querySelector("Button").addEventListener("click", function () {
-  location.reload();
-});
+  document.querySelector("Button").addEventListener("click", function () {
+    location.reload();
+  });
+}
+function selectPlayer() {
+  if (turnCounter >= maxTurns) {
+    document.getElementById("playerRole").innerHTML = "Game Over!";
+    return;
+  }
+
+  currentPlayer = currentPlayer === "userOne" ? "userTwo" : "userOne";
+  document.getElementById("playerRole").innerHTML =
+    "Turn of Player: " + (currentPlayer === "userOne" ? "One" : "Two");
+
+  turnCounter++;
+
+  setTimeout(function () {
+    document.getElementById("playerRole").innerHTML = "Timeout!!!!";
+    selectPlayer();
+  }, 5000);
+}
 
 // winning diagonally
 function winningDiagonally(board, userOnePiece, userTwoPiece) {
@@ -83,12 +107,27 @@ function winninghorizontally(board, userOnePiece, userTwoPiece) {
     }
   }
 }
-// a draw
-function theDraw() {}
+// a draw condition
+function theDraw() {
+  const totalCells = 16;
+  {
+    if (
+      !winningDiagonally(board, userOnePiece, userTwoPiece) &&
+      !winningVertically(board, userOnePiece, userTwoPiece) &&
+      !winninghorizontally(board, userOnePiece, userTwoPiece)
+    ) {
+      if (totalMoves === totalCells) {
+        document.getElementById("gameWinner").innerHTML = "It's a Draw";
+      }
+    }
+  }
+}
 
 function GameRules() {
   winningDiagonally(board, userOnePiece, userTwoPiece);
   winningVertically(board, userOnePiece, userTwoPiece);
   winninghorizontally(board, userOnePiece, userTwoPiece);
-  theDraw(board, userOnePiece, userTwoPiece);
+  theDraw();
 }
+gameSteps();
+
